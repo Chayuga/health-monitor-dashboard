@@ -10,10 +10,5 @@ export default NextAuth({
     }) as OAuthConfig<Profile>,
   ],
   secret: process.env.JWT_SECRET,
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-  jwt: { secret: process.env.SECRET },
   callbacks: {},
 });
