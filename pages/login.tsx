@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
+
 import { FcGoogle } from 'react-icons/fc';
 import { FaRegEnvelope } from 'react-icons/fa';
 import { MdLockOutline } from 'react-icons/md';
@@ -6,8 +8,12 @@ import { MdLockOutline } from 'react-icons/md';
 import useMediaQuery from '@/hooks/useMediaQuery';
 
 const Login = () => {
+  const { data: session } = useSession();
   const isTabletAndAbove = useMediaQuery('(min-width: 680px)');
 
+  if (session) {
+    return <p>Hello, {session?.user?.name}</p>;
+  }
   return (
     <div className='flex min-h-screen flex-col items-center justify-center py-2 bg-gray-200'>
       <main className='flex w-full flex-1 flex-col items-center justify-center md:px-10 lg:px-20  text-center'>
@@ -19,7 +25,10 @@ const Login = () => {
               </h2>
               <div className='border-2 w-16 border-green-400 inline-block mb-2' />
               <div className='flex justify-center'>
-                <button className='flex justify-center text-blue-600 bg-white my-2 py-2 rounded-md border-2 border-gray hover:border-blue-600 hover:font-bold hover:shadow-md'>
+                <button
+                  onClick={() => signIn()}
+                  className='flex justify-center text-blue-600 bg-white my-2 py-2 rounded-md border-2 border-gray hover:border-blue-600 hover:font-bold hover:shadow-md'
+                >
                   <div className='mx-1'>
                     <FcGoogle size={24} />
                   </div>
